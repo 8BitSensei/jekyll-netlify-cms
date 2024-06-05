@@ -1,20 +1,90 @@
 backend:
-  name: git-gateway
-  branch: master # Branch to update (master by default)
+    name: github
+    repo: 8BitSensei/Templum-Data
+    branch: decap-testing
 
-media_folder: "img/uploads" # Folder where user uploaded files should go
+media_folder: /static/media/uploads
+public_folder: /media/uploads
 
-collections: # A list of collections the CMS should be able to edit
-  - name: "post" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "Post" # Used in the UI, ie.: "New Post"
-    folder: "_posts" # The path to the folder where the documents are stored
-    sort: "date:desc" # Default is title:asc
-    create: true # Allow users to create new documents in this collection
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields: # The fields each document in this collection have
-      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
-      - {label: "Title", name: "title", widget: "string", tagname: "h1"}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Categories", name: "categories", widget: "string", required: false}
-    meta: # Meta data fields. Just like fields, but without any preview element
-      - {label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD hh:mm:ss"}
+collections:
+  - label: "Sites"
+    label_singular: "Site"
+    name: sites
+    format: json
+    folder: data
+    path: "templum_sites"
+    create: true
+    view_filters:
+        - label: Drafts
+          field: draft
+          pattern: true
+    fields:
+        - {label: "Name", name: name}
+        - {label: "Description", name: description, widget: "text"}
+        - label: "Sites"
+          name: "sites"
+          collapsed: false
+          widget: "list"
+          summary: '{{fields.site}}'
+          fields:
+            - {label: index, name: index, widget: number, min: 0}
+            - {label: Site, name: site, widget: string}
+            - {label: Start, name: start, widget: string, required: false}
+            - {label: End, name: end, widget: string, required: false}
+            - {label: Location, name: location, widget: string}
+            - {label: Description, name: description, widget: text, required: false}
+            - label: "Status"
+              name: "status"
+              widget: "select"
+              multiple: false
+              options: ["Unknown", "Unlikely", "Possible", "Probable", "Certain"]
+              default: "Unknown"
+              required: false
+            #- {label: "Map", name: "Map", widget: "map", decimals: 15 }
+            - label: "Latitude"
+              name: "latitude"
+              widget: "number"
+              value_type: "float"
+              min: -99
+              max: 99
+              step: 0.001
+              required: false
+            - label: "Longitude"
+              name: "longitude"
+              widget: "number"
+              value_type: "float"
+              min: -99
+              max: 99
+              step: 0.001
+              required: false
+            - {label: Tags, name: tags, widget: string, required: false}
+            - {label: Bibliography, name: bibliography, widget: list, required: false}
+        - label: "Dates"
+          name: "dates"
+          widget: "object"
+          summary: "Dates enum"
+          fields:
+            - {label: unknown, name: unknown, widget: string, required: false, hidden: true}
+            - {label: early 1st BCE, name: early 1st BCE, widget: string}
+            - {label: mid 1st BCE, name: mid 1st BCE, widget: string}
+            - {label: late 1st BCE, name: late 1st BCE, widget: string}
+            - {label: early 1st CE, name: early 1st CE, widget: string}
+            - {label: mid 1st CE, name: mid 1st CE, widget: string}
+            - {label: late 1st CE, name: late 1st CE, widget: string}
+            - {label: early 2nd CE, name: early 2nd CE, widget: string}
+            - {label: mid 2nd CE, name: mid 2nd CE, widget: string}
+            - {label: late 2nd CE, name: late 2nd CE, widget: string}
+            - {label: early 3rd CE, name: early 3rd CE, widget: string}
+            - {label: mid 3rd CE, name: mid 3rd CE, widget: string}
+            - {label: late 3rd CE, name: late 3rd CE, widget: string}
+            - {label: early 4th CE, name: early 4th CE, widget: string}
+            - {label: mid 4th CE, name: mid 4th CE, widget: string}
+            - {label: late 4th CE, name: late 4th CE, widget: string}
+            - {label: early 5th CE, name: early 5th CE, widget: string}
+            - {label: mid 5th CE, name: mid 5th CE, widget: string}
+            - {label: late 5th CE, name: late 5th CE, widget: string}
+            - {label: early 6th CE, name: early 6th CE, widget: string}
+            - {label: mid 6th CE, name: mid 6th CE, widget: string}
+            - {label: late 6th CE, name: late 6th CE, widget: string}
+            - {label: post 6th CE, name: post 6th CE, widget: string}
+
